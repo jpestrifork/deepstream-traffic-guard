@@ -1,0 +1,56 @@
+source:
+  location: /workspace/data/outfile.h264
+
+streammux:
+  batch-size: 1
+  batched-push-timeout: 40000
+  width: 1920
+  height: 1080
+
+
+tracker:
+  tracker-width: 960
+  tracker-height: 544
+  gpu-id: 0
+  ll-lib-file: /opt/nvidia/deepstream/deepstream/lib/libnvds_nvmultiobjecttracker.so
+  # ll-config-file required to set different tracker types
+  # ll-config-file: ../../../../samples/configs/deepstream-app/config_tracker_IOU.yml
+  # ll-config-file: ../../../../samples/configs/deepstream-app/config_tracker_NvSORT.yml
+  ll-config-file: /opt/nvidia/deepstream/deepstream-7.0/samples/configs/deepstream-app/config_tracker_NvDCF_perf.yml
+  # ll-config-file: ../../../../samples/configs/deepstream-app/config_tracker_NvDCF_accuracy.yml
+  # ll-config-file: ../../../../samples/configs/deepstream-app/config_tracker_NvDeepSORT.yml
+
+msgconv:
+  #If you want to send images, please set the "payload-type: 1" and "msg2p-newapi: 1"
+  config: msgconv_config.yml
+  payload-type: 1
+  msg2p-newapi: 1
+  frame-interval: 1
+  debug-payload-dir: /workspace/logs/test
+
+msgbroker:
+  proto-lib: /opt/nvidia/deepstream/deepstream/lib/libnvds_mqtt_proto.so
+  conn-str: 127.0.0.1;1883
+  topic: camera/1/detections
+  sync: 0
+
+# Inference using nvinfer:
+primary-gie:
+  plugin-type: 0
+  config-file-path: pgie_trafficcamnet_config.yml
+
+secondary-gie1:
+  plugin-type: 0
+  config-file-path: sgie_vehiclemakenet_config.yml
+
+secondary-gie2:
+  plugin-type: 0
+  config-file-path: sgie_vehicletypenet_config.yml
+
+secondary-gie3:
+  plugin-type: 0
+  config-file-path: sgie_lpd_us_config.yml
+
+secondary-gie4:
+  plugin-type: 0
+  config-file-path: sgie_lpr_us_config.yml

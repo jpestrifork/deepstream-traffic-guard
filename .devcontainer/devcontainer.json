@@ -1,0 +1,27 @@
+{
+    "image": "nvcr.io/nvidia/deepstream:7.0-gc-triton-devel",
+    "remoteUser": "root",
+    "workspaceFolder": "/workspace",
+    "mounts": [
+        "type=bind,source=${localWorkspaceFolder},target=/workspace",
+        "type=bind,source=/tmp/.X11-unix,target=/tmp/.X11-unix"
+    ],
+    "runArgs": [
+        "--gpus=all",
+        "--network=host",
+        "--privileged",
+        "-e",
+        "DISPLAY=${localEnv:DISPLAY}"
+    ],
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "ms-python.python",
+                "ms-vscode.cpptools",
+                "eamodio.gitlens",
+                "emeraldwalk.runonsave",
+                "ms-vsliveshare.vsliveshare"
+            ]
+        }
+    }
+}
